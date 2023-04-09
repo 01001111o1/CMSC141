@@ -110,21 +110,37 @@ class DFA():
 		G : defaultdict
 			Contains information regarding pairwise distinguishability between
 			the cartesian product of self.states with itself. A pair of states
-			(q1, r1) are distinguishable if G[q1][r1] == 1
+			(q, r) are distinguishable if G[q][r] == 1
+
+		D_Prime : defaultdict
+			Transition function for the minimized DFA
 		"""
 		G = defaultdict(lambda: 0)
 		for state in self.states:
 			G[state] = defaultdict(lambda: 0)
 
+
 		D_Prime = defaultdict(dict)
 		for state in self.states:
 			D_Prime[state] = defaultdict(str)
 
+		"""
+		We initially mark all pairs of states (q, r) = (r, q) as distinguishiable (set to 1) such that q is an element of the set of accept states and r is the set of non-accepting states.
+		"""
 		for (q, r) in product(self.accept_states, self.states.difference(self.accept_states)):
 			G[q][r] = 1
 			G[r][q] = 1
 
+		"""
+		Temp : defaultdict
+			Copy of the defaultdict G to be used for the updating part of the algorithm
+		"""
 		Temp = copy.deepcopy(G)
+
+		"""
+		update() : function
+			checks all pairs of states from the cartesian product of self.states with itself such that given two states (q, r) and q != r, mark G[q][r] = 1 (distinguishable) if the pair (self.transition[q][a], self.transition[r][a]) is distinguishable. That is, if the pair of transition states given some symbol "a" in the alphabet is distinguishable 
+		"""
 
 		def update():
 			for (q, r) in product(self.states, self.states):
@@ -135,43 +151,99 @@ class DFA():
 						G[q][r] = 1
 						G[r][q] = 1
 
+		"""
+		Initial update
+		"""
 		update()
 
+		"""
+		Repeatedly apply the update() function as long as a change in G occurs in the previous iteration
+		"""
 		while Temp != G:
 			Temp = copy.deepcopy(G)
 			update()
 						
+
+		"""
+		Q_Prime : set
+			contains the set of all states for the minimized DFA
+		
+		F_Prime : set
+			contains the set of all accept states for the minimized DFA
+		
+		q0_Prime : str
+			Initial state of the minimized DFA and an element of Q_Prime
+		
+		equiv_class : defaultdict
+			Stores the equivalence class of each state q in self.states. That is, [q] is the set of states that are indistinguishable from q
+		"""
 		Q_Prime = set()
 		F_Prime = set()
 		q0_Prime = ""
-		qe = ""
 
 		equiv_class = defaultdict(str)
-
 		for a in self.alphabet:
 			D_Prime[a] = dict()
 		
 		for q in self.states:
-			qe = "[" + ' '.join(["(" + " ".join(r) + ")" for r in self.states if G[q][r] == 0]) + "]"  #[q]
-			equiv_class[q] = qe
 			
+			"""
+			qe : str
+				equivalence class of q casted as a string since it needs to be used as a key for dictionaries. A state q is always indistinguishable from itself. 
+			"""
+			qe = "[" + ' '.join(["(" + " ".join(r) + ")" for r in self.states if G[q][r] == 0]) + "]"  #[q]
+			"""
+			Maps each state to its equivalence class
+			"""
+			equiv_class[q] = qe
+			"""
+			Adds qe to the set of states of the minimized DFA
+			"""
 			Q_Prime.add(qe)
 
+			"""
+			If the equivalence class of q contains the start state then set it to be the initial state of the minimized DFA 
+			"""
 			if q == self.start_state:
 				q0_Prime = qe
 
+			"""
+			If the equivalence class of q contains an accept state then add it to the set of accept states of the minimized DFA 
+			"""
 			if q in self.accept_states:
 				F_Prime.add(qe)
 
+		"""
+		retrieve_key(d, value) : function
+
+		Parameters:
+			d : defaultdict
+			value : str
+
+		Given the set of k-v pairs in d such that value == v, returns the first instance of the key of v if it exists
+		"""
 		def retrieve_key(d, value):
 			keys = [k for k, v in d.items() if v == value]
 			if keys:
 				return keys[0]
 			return None
 
+		"""
+		Iterate over the cartesian product of the set of states of the minimized DFA and the alphabet
+		"""
 		for (qq, a) in product(Q_Prime, self.alphabet):
+		"""
+		Retrieve the key of the equivalence class of qq 
+		"""
 				q = retrieve_key(equiv_class, qq)
+		"""
+		Builds the transition function for the minimized DFA. Maps 
+		D_Prime[qq][a] to the equivalence class of self.transition[q][a] for each state in Q_Prime 
+		"""
 				D_Prime[qq].update({a : equiv_class[self.transition[q][a]]})
 
+		"""
+		Returns the minimized dfa
+		"""
 		return DFA(Q_Prime, self.alphabet, D_Prime, q0_Prime, F_Prime)
 

@@ -4,7 +4,21 @@ from itertools import product
 import copy 
 
 class DFA():
+		"""
+		Creates an instance of a Deterministic Finite Automata (DFA)
 
+		Attributes:
+			states : set
+				Collection of states
+			alphabet : set
+				Collection of symbols
+			transition : dict
+				Transition function of the form transition[state][symbol] = state
+			start_state : str
+				Initial state and an element of states
+			accept_states : set
+				Accepting or final states which is a subset of states
+		"""
 	def __init__(self, states=set(), alphabet=set(), transition=dict(), start_state= None, accept_states=set()):
 
 		self.states = set(states)
@@ -15,7 +29,9 @@ class DFA():
 
 
 	def _str_transition_(self):
-
+		"""
+		String representation of the transition function of the DFA
+		"""
 		string = "Transitions: state, symbol -> state"
 		for state in self.transition:
 			state_transitions = self.transition[state]
@@ -24,9 +40,15 @@ class DFA():
 		return string
 
 	def __repr__(self):
+		"""
+		Returns the DFA's identity in hexadecimal
+		"""
 		return "Deterministic Finite Automata (DFA)" + f" at {hex(id(self))}"
 
 	def __str__(self):
+		"""
+		Returns the string representation of the DFA
+		"""
 		str_self = (
 			self.__repr__() + "\n"
 			+ "States: " + f"{self.states}\n"
@@ -38,7 +60,15 @@ class DFA():
 		return str_self
 
 	def accepts(self, input_string):
+		"""
+		accepts(self, input_string) : function 
 
+		Parameters: 
+			self : DFA
+			input_string : str
+
+		Returns whether or not the string "input_string" is accepted by the language of the DFA
+		"""
 		current_state = self.start_state
 		for idx in range(len(input_string)):
 			current_symbol = input_string[idx]
@@ -49,40 +79,124 @@ class DFA():
 			return False
 
 	def DFA_Strip(self):
+		"""
+		Algorithm functions like a Breadth First Search (BFS)
+
+		DFA_Strip(self) : function
+
+		Parameter: 
+			self : DFA
+
+		Returns the DFA whose unreachable states are removed 
+		"""
+
+		"""
+		ReachableStates : set
+			Contains the set of reachable states. Initially contains the start state of the DFA
+		NewStates : set
+			Contains the set of new states. That is, the set of previously unseen states reachable from one of the states in ReachableStates in one symbol in the alphabet.
+		"""
+
 		ReachableStates = {self.start_state}
 		NewStates = {self.start_state}
 
 		while len(NewStates) > 0:
+			"""
+			TempStates : set
+				Contains all states reachable from the set NewStates using every symbol in the alphabet
+			"""
 			TempStates = set() 
 			for r in NewStates:
 				for a in self.alphabet:
 					TempStates = TempStates.union({self.transition[r][a]})
+			"""
+			Update NewStates and ReachableStates
+			"""
 			NewStates = TempStates.difference(ReachableStates)
 			ReachableStates = ReachableStates.union(NewStates)
+		"""
+		Q_Prime : set
+			Contains the DFA's set of reachable states
+		F_Prime : set
+			Contains the DFA's set of reachable accept states
+		D_Prime : dict
+			Transition function of the stripped DFA
+		"""
 		Q_Prime = ReachableStates
 		F_Prime = self.accept_states.intersection(ReachableStates)
 		D_Prime = self.transition
 
+		"""
+		Removes the outgoing edges / transitions from each unreachable state q 
+		"""
 		for q in self.states.difference(Q_Prime):
 			for a in self.alphabet:
 				D_Prime[q].pop(a)
-
+		"""
+		Returns the stripped DFA
+		"""
 		return DFA(Q_Prime, self.alphabet, D_Prime, self.start_state, F_Prime)
 
 	def DFA_Intersection(self, m2):
+		"""
+		DFA_Intersection(self, M) : function
+
+		Parameters:
+			self : DFA
+			M : DFA
+
+		Returns the intersection of the DFA's self and M
+		"""
+
+		"""
+		Q : list[tuple]
+			Cartesian product between the states of the two input DFAs
+
+		alphabet : set
+			Intersection between the alphabet of the two input DFAs
+
+		delta : dict
+			Transition function for the intersection of the two input DFAs 
+		"""
 		Q = [(q1, q2) for q1 in self.states for q2 in m2.states]
 		alphabet = self.alphabet.intersection(m2.alphabet)
 		delta = dict()
 		for (q1, q2) in Q:
+			"""
+			For each ordered pair in Q and every symbol a in alphabet, map the pair into their pairwise transition which is also an element of Q
+			"""
 			temp = dict()
 			for a in alphabet:
 				temp[a] = (self.transition[q1][a], m2.transition[q2][a])
 			delta[(q1, q2)] = temp
+		"""
+		q0 : tuple
+			Initial state of the DFA intersection
+
+		The initial state of the intersection of two DFAs is the ordered pair consisting of the initial state of each DFA
+		"""
 		q0 = (self.start_state, m2.start_state)
+		
+		"""
+		F : list[tuple]
+			Cartesian product between the accept states of the two input DFAs
+		"""
 		F = [(f1, f2) for f1 in self.accept_states for f2 in m2.accept_states]
+		"""
+		Returns the intersection of the two DFAs
+		"""
 		return DFA(Q, alphabet, delta, q0, F)
 
 	def DFA_Complement(self):
+		"""
+		DFA_Complement(self) : function
+
+		Parameter:
+			self : DFA
+
+		Returns the complement of the DFA. That is, given a DFA 
+		M = (Q, Sigma, Delta, q0, F), it returns M' = (Q, Sigma, Delta, q0, Q - F)
+		"""
 		return DFA(self.states, self.alphabet, self.transition, self.start_state, self.states.difference(self.accept_states))
 
 	def DFA_Minimize(self):
@@ -102,8 +216,9 @@ class DFA():
 			accept_states : set
 				Accepting or final states which is a subset of states
 		"""
-
-		#Removes all unreachable states from the given DFA
+		"""
+		Removes all unreachable states from the given DFA
+		"""
 		self = self.DFA_Strip()
 
 		"""

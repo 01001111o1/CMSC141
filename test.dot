@@ -1,0 +1,138 @@
+/*digraph item_2b_NOTCOMPLEMENT {
+	label = "Item 2b Not Complement";
+	labelloc = top;
+	labeljust = center;
+	fontname="Helvetica,Arial,sans-serif"
+	node [fontname="Helvetica,Arial,sans-serif"]
+	edge [fontname="Helvetica,Arial,sans-serif"]
+	rankdir=LR;
+	
+	"" [shape = none]
+	
+	node [shape = doublecircle]; q2;
+	q2 [style="rounded,filled" color = brown1];
+
+	node [shape = circle];
+    q0 [style="rounded,filled" color = aqua]; 
+	
+    "" -> q0
+	q0 -> q1 [label = "0"];
+	q0 -> q0 [label = "1"];
+	q1 -> q2 [label = "0"];
+	q1 -> q1 [label = "1"];
+	q2 -> q3 [label = "0"];
+	q2 -> q2 [label = "1"];
+	q3 -> q3 [label = "0, 1"];
+
+}*/
+
+/*digraph item_2b_COMPLEMENT {
+	label = "Item 2B Complement";
+	labelloc = top;
+	labeljust = center;
+	fontname="Helvetica,Arial,sans-serif"
+	node [fontname="Helvetica,Arial,sans-serif"]
+	edge [fontname="Helvetica,Arial,sans-serif"]
+	rankdir=LR;
+	
+	"" [shape = none]
+	
+	node [shape = doublecircle]; q0 q1 q3;
+	q0 [style="rounded,filled" color = brown1];
+	q1 [style="rounded,filled" color = brown1];
+	q3 [style="rounded,filled" color = brown1];
+	
+	node [shape = circle];
+
+    "" -> q0
+	q0 -> q1 [label = "0"];
+	q0 -> q0 [label = "1"];
+	q1 -> q2 [label = "0"];
+	q1 -> q1 [label = "1"];
+	q2 -> q3 [label = "0"];
+	q2 -> q2 [label = "1"];
+	q3 -> q3 [label = "0, 1"];
+}*/
+
+/*digraph item_2a_COMPLEMENT {
+	label = "Set of binary strings that contain neither the substrings 01 nor 10";
+	labelloc = top;
+	labeljust = center;
+	fontname="Helvetica,Arial,sans-serif"
+	node [fontname="Helvetica,Arial,sans-serif"]
+	edge [fontname="Helvetica,Arial,sans-serif"]
+	rankdir=LR;
+	
+	"" [shape = none]
+	
+	node [shape = doublecircle]; q0 q1 q2;
+	q0 [style="rounded,filled" color = brown1];
+	q1 [style="rounded,filled" color = brown1];
+	q2 [style="rounded,filled" color = brown1];
+
+	node [shape = circle];
+
+    "" -> q0
+	q0 -> q1 [label = "0"];
+	q0 -> q2 [label = "1"];
+	q1 -> q1 [label = "0"];
+	q1 -> q3 [label = "1"];
+	q2 -> q3 [label = "0"];
+	q2 -> q2 [label = "1"];
+	q3 -> q3 [label = "0, 1"];
+}*/
+
+/*digraph item_2a_COMPLEMENT {
+	label = "Set of binary strings that contains either the empty string or the substrings 01 or 10";
+	labelloc = top;
+	labeljust = center;
+	fontname="Helvetica,Arial,sans-serif"
+	node [fontname="Helvetica,Arial,sans-serif"]
+	edge [fontname="Helvetica,Arial,sans-serif"]
+	rankdir=LR;
+	
+	"" [shape = none]
+	
+	node [shape = doublecircle]; q3;
+	q3 [style="rounded,filled" color = brown1];
+
+	node [shape = circle];
+    q0 [style="rounded,filled" color = aqua]; 
+
+    "" -> q0
+	q0 -> q1 [label = "0"];
+	q0 -> q2 [label = "1"];
+	q1 -> q1 [label = "0"];
+	q1 -> q3 [label = "1"];
+	q2 -> q3 [label = "0"];
+	q2 -> q2 [label = "1"];
+	q3 -> q3 [label = "0, 1"];
+}
+*/
+
+digraph item_2a_COMPLEMENT {
+	label = "Set of binary strings that contains either the empty string or the substrings 01 or 10";
+	labelloc = top;
+	labeljust = center;
+	fontname="Helvetica,Arial,sans-serif"
+	node [fontname="Helvetica,Arial,sans-serif"]
+	edge [fontname="Helvetica,Arial,sans-serif"]
+	rankdir=LR;
+	
+	"" [shape = none]
+	
+	node [shape = doublecircle]; q3;
+	q3 [style="rounded,filled" color = brown1];
+
+	node [shape = circle];
+    q0 [style="rounded,filled" color = aqua]; 
+
+    "" -> q0
+	q0 -> q1 [label = "0"];
+	q0 -> q2 [label = "1"];
+	q1 -> q1 [label = "0"];
+	q1 -> q3 [label = "1"];
+	q2 -> q3 [label = "0"];
+	q2 -> q2 [label = "1"];
+	q3 -> q3 [label = "0, 1"];
+}

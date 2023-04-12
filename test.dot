@@ -110,7 +110,7 @@
 }
 */
 
-digraph item_2a_COMPLEMENT {
+/*digraph item_2a_COMPLEMENT {
 	label = "Set of binary strings that contains either the empty string or the substrings 01 or 10";
 	labelloc = top;
 	labeljust = center;
@@ -135,4 +135,31 @@ digraph item_2a_COMPLEMENT {
 	q2 -> q3 [label = "0"];
 	q2 -> q2 [label = "1"];
 	q3 -> q3 [label = "0, 1"];
+}*/
+
+digraph item3b {
+	label = "Intersection 3A/B idk";
+	labelloc = top;
+	labeljust = center;
+	fontname="Helvetica,Arial,sans-serif"
+	node [fontname="Helvetica,Arial,sans-serif"]
+	edge [fontname="Helvetica,Arial,sans-serif"]
+	rankdir=LR;
+	
+	"" [shape = none]
+	
+	node [shape = doublecircle]; "[(q2 r1)]";
+	"[(q2 r1)]" [style="rounded,filled" color = brown1];
+
+	node [shape = circle];
+    "[(q2 r2) (q0 r0) (q2 r0)]" [style="rounded,filled" color = aqua]; 
+
+    "" -> "[(q2 r2) (q0 r0) (q2 r0)]"
+	"[(q2 r2) (q0 r0) (q2 r0)]" -> "[(q1 r0) (q1 r2)]" [label = "0"];
+	"[(q2 r2) (q0 r0) (q2 r0)]" -> "[(q1 r1)]" [label = "1"];
+	"[(q1 r1)]" -> "[(q0 r0) (q2 r0) (q2 r2)]" [label = "0, 1"];
+	"[(q1 r0) (q1 r2)]" -> "[(q0 r0) (q2 r0) (q2 r2)]" [label = "0"];
+	"[(q1 r0) (q1 r2)]" -> "[(q2 r1)]" [label = "1"];
+	"[(q2 r1)]" -> "[(q1 r0) (q1 r2)]" [label = "0, 1"];
 }
+

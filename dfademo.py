@@ -17,10 +17,10 @@ initialState = "a", F = {"c", "d", "e"})
 #dfa = automata_IO.dfa_dot_importer("C:/Users/Sean/Desktop/CMSC141/test.dot")
 #automata_IO.dfa_to_dot(dfa, "test", "C:/Users/Sean/Desktop/CMSC141/")
 
-# path = "C:/Users/Sean/Desktop/CMSC141/test.dot"
-# s = Source.from_file(path)
-# #s.render("test.dot", format = "svg", view = Trsue)
-# s.render(format = "svg", view = True)
+path = "C:/Users/Sean/Desktop/CMSC141/test.dot"
+s = Source.from_file(path)
+#s.render("test.dot", format = "svg", view = True)
+s.render(format = "svg", view = True)
 
 #Z = M.DFA_Intersection(A)
 #Z.DFA_Strip()
@@ -78,5 +78,5 @@ D = DFA_141(
     accept_states={"r1"}
 )
 
-E = C.DFA_Intersection(D).DFA_Minimize()
+E = C.DFA_Intersection(D).DFA_Strip()
 print(E)

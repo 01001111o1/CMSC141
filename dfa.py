@@ -1,9 +1,9 @@
-#REMEMBER TO DO DOCUMENTATION
 from collections import defaultdict
 from itertools import product
 import copy 
 
 class DFA():
+	def __init__(self, states = set(), alphabet = set(), transition = dict(), start_state = None, accept_states = set()):
 		"""
 		Creates an instance of a Deterministic Finite Automata (DFA)
 
@@ -19,8 +19,6 @@ class DFA():
 			accept_states : set
 				Accepting or final states which is a subset of states
 		"""
-	def __init__(self, states=set(), alphabet=set(), transition=dict(), start_state= None, accept_states=set()):
-
 		self.states = set(states)
 		self.alphabet = set(alphabet)
 		self.transition = transition
@@ -347,15 +345,15 @@ class DFA():
 		Iterate over the cartesian product of the set of states of the minimized DFA and the alphabet
 		"""
 		for (qq, a) in product(Q_Prime, self.alphabet):
-		"""
-		Retrieve the key of the equivalence class of qq 
-		"""
-				q = retrieve_key(equiv_class, qq)
-		"""
-		Builds the transition function for the minimized DFA. Maps 
-		D_Prime[qq][a] to the equivalence class of self.transition[q][a] for each state in Q_Prime 
-		"""
-				D_Prime[qq].update({a : equiv_class[self.transition[q][a]]})
+			"""
+			Retrieve the key of the equivalence class of qq 
+			"""
+			q = retrieve_key(equiv_class, qq)
+			"""
+			Builds the transition function for the minimized DFA. Maps 
+			D_Prime[qq][a] to the equivalence class of self.transition[q][a] for each state in Q_Prime 
+			"""
+			D_Prime[qq].update({a : equiv_class[self.transition[q][a]]})
 
 		"""
 		Returns the minimized dfa

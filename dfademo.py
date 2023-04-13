@@ -53,8 +53,8 @@ B = DFA_141(
     accept_states={"r2"}
 )
 
-#C = A.DFA_Intersection(B).DFA_Minimize()
-#print(C)
+Z = A.DFA_Intersection(B).DFA_Minimize()
+print(Z)
 
 C = DFA_141(
 	states={"q0","q1","q2"}, 
@@ -78,5 +78,5 @@ D = DFA_141(
     accept_states={"r1"}
 )
 
-E = C.DFA_Intersection(D).DFA_Strip()
-print(E)
+# E = C.DFA_Intersection(D).DFA_Minimize()
+# print(E)

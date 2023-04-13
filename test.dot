@@ -137,8 +137,8 @@
 	q3 -> q3 [label = "0, 1"];
 }*/
 
-digraph item3b {
-	label = "Intersection 3A/B idk";
+/*digraph item3b {
+	label = "Intersection 3B";
 	labelloc = top;
 	labeljust = center;
 	fontname="Helvetica,Arial,sans-serif"
@@ -157,9 +157,36 @@ digraph item3b {
     "" -> "[(q2 r2) (q0 r0) (q2 r0)]"
 	"[(q2 r2) (q0 r0) (q2 r0)]" -> "[(q1 r0) (q1 r2)]" [label = "0"];
 	"[(q2 r2) (q0 r0) (q2 r0)]" -> "[(q1 r1)]" [label = "1"];
-	"[(q1 r1)]" -> "[(q0 r0) (q2 r0) (q2 r2)]" [label = "0, 1"];
-	"[(q1 r0) (q1 r2)]" -> "[(q0 r0) (q2 r0) (q2 r2)]" [label = "0"];
+	"[(q1 r1)]" -> "[(q2 r2) (q0 r0) (q2 r0)]" [label = "0, 1"];
+	"[(q1 r0) (q1 r2)]" -> "[(q2 r2) (q0 r0) (q2 r0)]" [label = "0"];
 	"[(q1 r0) (q1 r2)]" -> "[(q2 r1)]" [label = "1"];
 	"[(q2 r1)]" -> "[(q1 r0) (q1 r2)]" [label = "0, 1"];
+}*/
+
+digraph item3a {
+	label = "Intersection 3A";
+	labelloc = top;
+	labeljust = center;
+	fontname="Helvetica,Arial,sans-serif"
+	node [fontname="Helvetica,Arial,sans-serif"]
+	edge [fontname="Helvetica,Arial,sans-serif"]
+	rankdir=LR;
+	
+	"" [shape = none]
+	
+	node [shape = doublecircle]; "[(q1 r2)]";
+	"[(q1 r2)]" [style="rounded,filled" color = brown1];
+
+	node [shape = circle];
+    "[(q0 r0)]" [style="rounded,filled" color = aqua]; 
+
+    "" -> "[(q0 r0)]"
+	"[(q0 r0)]" -> "[(q1 r1)]" [label = "0"];
+	"[(q0 r0)]" -> "[(q2 r3) (q1 r3) (q2 r2)]" [label = "1"];
+	"[(q2 r3) (q1 r3) (q2 r2)]" -> "[(q2 r3) (q1 r3) (q2 r2)]" [label = "0, 1"];
+	"[(q1 r1)]" -> "[(q1 r1)]" [label = "0"];
+	"[(q1 r1)]" -> "[(q1 r2)]" [label = "1"];
+	"[(q1 r2)]" -> "[(q1 r2)]" [label = "0"];
+	"[(q1 r2)]" -> "[(q2 r3) (q1 r3) (q2 r2)]" [label = "1"];
 }
 
